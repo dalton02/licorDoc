@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { base } from "$app/paths";
   import { page } from "$app/stores";
   import Button from "$components/assets/buttons/Button.svelte";
   import LinkExternal from "$components/assets/buttons/LinkExternal.svelte";
@@ -14,7 +15,7 @@
 
   
     page.subscribe(pagina=>{
-        documentation.currentDocument = pagina.url.pathname.split("/")[2]
+        documentation.currentDocument = base !=="" ? pagina.url.pathname.split("/")[2] : pagina.url.pathname.split("/")[3]
     })
     export let data
     
