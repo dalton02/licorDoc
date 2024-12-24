@@ -1,5 +1,6 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
+  import { base } from "$app/paths";
     import Button from "$components/assets/buttons/Button.svelte";
     import Highlight from "$components/assets/text/Highlight.svelte";
   import observer from "$lib/functions/observer/Observer.svelte";
@@ -24,7 +25,7 @@
     async function go(match){
 
 
-        await goto("/docs/"+documentation.titleToUrl(match.title),{replaceState:true})
+        await goto(base+"/docs/"+documentation.titleToUrl(match.title),{replaceState:true})
 
         observer.sendSignal("closeSearch",{})
         

@@ -1,5 +1,6 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
+  import { base } from "$app/paths";
   import Button from "$components/assets/buttons/Button.svelte";
   import RevealText from "$components/assets/lego/RevealText.svelte";
   import { onMount } from "svelte";
@@ -30,7 +31,7 @@
       
             <Button className="p-2 px-12  font-semibold text-[18px] lg:text-[20px] rounded-full mt-4 
             text-lightWeak bg-darkWeak relative overflow-hidden dark:text-darkWeak dark:bg-lightWeak hover:scale-110"
-            onClick={()=>goto("/docs/quick-start")}>
+            onClick={()=>goto(base+"/docs/about")}>
                <b class="z-20">Click here</b> 
             </Button>
         </div>
