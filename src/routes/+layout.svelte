@@ -37,7 +37,7 @@
     <header class="p-4 px-8 lg:px-24 z-10 fixed w-svw items-center top-0 font-semibold text-[18px] dark:text-gray-100 text-[#324B4F] flex flex-row gap-2 
     justify-between dark:bg-darkWeak bg-lightWeak shadow-lg">
     
-    <Button className="text-[18px]" onClick={()=>goto("/")}>
+    <Button className="text-[18px]" onClick={()=>goto(base+"/")}>
        Licor
     </Button>
 
