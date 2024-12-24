@@ -15,7 +15,7 @@
 
   
     page.subscribe(pagina=>{
-        documentation.currentDocument = base !=="" ? pagina.url.pathname.split("/")[2] : pagina.url.pathname.split("/")[3]
+        documentation.currentDocument = base ==="" ? pagina.url.pathname.split("/")[2] : pagina.url.pathname.split("/")[3]
     })
     export let data
     
