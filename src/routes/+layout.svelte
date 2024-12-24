@@ -15,6 +15,7 @@
   import Button from "$components/assets/buttons/Button.svelte";
   import observer from "$lib/functions/observer/Observer.svelte";
   import MenuMoblie from "$components/sections/MenuMoblie.svelte";
+  import { goto } from "$app/navigation";
 
   onMount(()=>{
     document.documentElement.classList.remove("dark")
@@ -36,13 +37,15 @@
     <header class="p-4 px-8 lg:px-24 z-10 fixed w-svw items-center top-0 font-semibold text-[18px] dark:text-gray-100 text-[#324B4F] flex flex-row gap-2 
     justify-between dark:bg-darkWeak bg-lightWeak shadow-lg">
     
-  
-       LICOR
+    <Button className="text-[18px]" onClick={()=>goto("/")}>
+       Licor
+    </Button>
+
   
         <Search/>
     
         <div class="flex justify-end gap-6 items-center">
-              <div class="hidden lg:flex flex-row gap-3">
+              <div class="flex flex-row gap-3">
                   <TitleBlock className="group" title="Github" classPosTitle="top-[140%] right-0">
                       <LinkExternal  url="https://github.com/dalton02/licor" className=""> 
                           <Git className="group-hover:scale-[1.1] duration-300 ease-in-out"/>
@@ -54,7 +57,9 @@
                       </LinkExternal>
                   </TitleBlock>
               </div>
-              <Theme/>
+              <div class="hidden lg:flex">
+                 <Theme/>
+              </div>
         </div>
   
     </header>   
@@ -89,20 +94,11 @@
           
   
           <div class="flex justify-end gap-6 items-center">
-              <div class="flex flex-row gap-3">
-                  <TitleBlock className="group" title="Github" classPosTitle="top-[140%] right-0">
-                      <LinkExternal url="https://github.com/dalton02/licor" className=""> 
-                          <Git className="group-hover:scale-[1.1] duration-300 ease-in-out"/>
-                      </LinkExternal>
-                  </TitleBlock>
-                  <TitleBlock className="group" title="Linkedin" classPosTitle="top-[140%] right-0"> 
-                      <LinkExternal url="https://www.linkedin.com/in/dalton-gomes/" className=""> 
-                          <Linkedin className="group-hover:scale-[1.1] duration-300 ease-in-out"/>
-                      </LinkExternal>
-                  </TitleBlock>
-              </div>
+            <Theme/>
           </div>
   
     </footer>
     
   </div>
+<style>
+</style>

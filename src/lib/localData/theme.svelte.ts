@@ -2,7 +2,7 @@
 
 class ThemeManager {
 
-    theme = $state("dark")
+    theme = $state("light")
 
     setDark(){
         this.theme="dark"

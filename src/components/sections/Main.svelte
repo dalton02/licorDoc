@@ -22,7 +22,7 @@
   function copyText(text:string){
 
         navigator.clipboard.writeText(text).then(()=>{
-            toast.push("Codigo cópiado para o clipboard",{timeout:1200})
+            toast.push("Codigo cópiado",{timeout:1200})
         })
   }
 

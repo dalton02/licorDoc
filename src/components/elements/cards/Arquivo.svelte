@@ -56,7 +56,7 @@
     {#if isOpen}
         <div class="flex flex-col gap-3 w-full" in:slide out:slide>
         {#each matchs as  match} 
-          <Button className="flex gap-4 items-center justify-start hover:bg-lightWeak hover:dark:bg-darkWeak w-full overflow-hidden rounded-lg p-1 px-3 lg:px-6"
+          <Button className="flex gap-2 lg:gap-4 items-center justify-start hover:bg-lightWeak hover:dark:bg-darkWeak w-full overflow-hidden rounded-lg p-1 px-3 lg:px-6"
           onClick={()=>go(match)}>
             {#if match.type==="code"}
                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"  class={"flex-shrink dark:fill-white fill-gray-950"} viewBox="0 0 256 256">

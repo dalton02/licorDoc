@@ -15,10 +15,10 @@
         {#each value as docObject}
             <li class="ml-4 ">
                 <Link url="/docs/{documentation.titleToUrl(docObject.title)}" 
-                className="hover:font-semibold
+                className="hover:font-bold
                 px-4 p-[2px] rounded-full text-[14px] ease-in-out
                 {documentation.titleToUrl(docObject.title) === documentation.currentDocument 
-                ? "font-semibold" : "font-medium"}">
+                ? "font-bold" : "font-medium"}">
                     {docObject.title.toLowerCase()}
                 </Link>
             </li>

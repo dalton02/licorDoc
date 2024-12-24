@@ -6,6 +6,7 @@
 
 
   import documentation from "$lib/localData/documentation.svelte";
+  import { fade, slide } from "svelte/transition";
 
   let isOpen = $state(false);
 
@@ -27,8 +28,9 @@
 </script>
 
 {#if isOpen}
-<div class="fixed lg:hidden flex z-10 items-end justify-end w-svw h-screen bottom-0 left-0 backdrop-blur-[1px] bg-[rgba(0,0,0,.1)]">
-<ul class=" dark:bg-darkMid bg-lightStrong w-svw h-[60svh] z-30 rounded-t-xl shadow-xl dark:shadow-white dark:border-t overflow-y-auto flex flex-col items-start justify-start gap-2">
+<div class="fixed lg:hidden flex z-10 items-end justify-end w-svw h-screen bottom-0 left-0 backdrop-blur-[1px] bg-[rgba(0,0,0,.1)]" out:fade>
+<ul class=" dark:bg-darkMid bg-lightStrong w-svw h-[60svh] z-30 rounded-t-xl shadow-xl dark:shadow-none  
+overflow-y-auto flex flex-col items-start justify-start gap-2" in:slide out:slide>
     {#each [...documentation.groupByContext()] as [key,value],i}
         <li class="font-semibold text-[14px] p-[2px] {i>0 ? "mt-8" : "mt-5"} px-5 
       rounded-lg dark:text-lightWeak text-darkWeak ">
