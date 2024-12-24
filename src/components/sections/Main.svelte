@@ -64,7 +64,7 @@ out:fly={{duration:time,y:-1300,opacity:1,easing:expoIn}}>
     
     {#if documentation.getByTitle(documentation.urlToTitle(documentation.currentDocument))}
     {@const doc = documentation.getByTitle(documentation.urlToTitle(documentation.currentDocument))}
-        <h1 class="text-[26px] lg:text-[44px] mb-5">{doc.title}</h1>
+        <h1 class="text-[26px] lg:text-[32px] mb-5">{doc.title}</h1>
 
         <div class="block">
             {#each doc.content as c,i}
@@ -94,7 +94,7 @@ out:fly={{duration:time,y:-1300,opacity:1,easing:expoIn}}>
                 {/if}
 
                 {#if conteudo.subTitle}
-                    <h2 class="text-[20px] lg:text-[28px] dark:text-lightMid text-darkMid 
+                    <h2 class="text-[18px] lg:text-[20px] dark:text-lightMid text-darkMid 
                     {i===0 ? "mt-4" : "mt-20"}  mb-4" 
                     data-subTitle={documentation.titleToUrl(conteudo.subTitle)}>{conteudo.subTitle}</h2>
                 {/if}

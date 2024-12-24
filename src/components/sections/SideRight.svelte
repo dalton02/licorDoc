@@ -23,11 +23,11 @@
 <div class="flex flex-col gap-2 overflow-x-hidden">
     {#if documentation.getByTitle(documentation.urlToTitle(documentation.currentDocument))}
     {@const summary = documentation.getByTitle(documentation.urlToTitle(documentation.currentDocument))}
-        <div class="text-[24px] font-semibold">
+        <div class="text-[22px] font-semibold">
             Summary
         </div>
         {#key data.url}
-        <div class="flex flex-col gap-1 justify-start items-start"
+        <div class="flex flex-col gap-2 justify-start items-start"
         in:fly={{x:600,duration:500,delay:500}}
         out:fly={{x:600,duration:500}}
         >
@@ -35,7 +35,7 @@
         {@const conteudo = doc as DocumentationContentWeak}
             {#if conteudo.subTitle}
                 <Button onClick={()=>scroll(conteudo.subTitle)} 
-                className="hover:underline font-medium">
+                className="hover:underline font-medium text-[14px]">
                 {conteudo.subTitle}
                 </Button>
             {/if}

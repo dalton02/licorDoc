@@ -2,6 +2,7 @@
   import { goto } from "$app/navigation";
   import { base } from "$app/paths";
   import Button from "$components/assets/buttons/Button.svelte";
+  import Git from "$components/assets/icons/Git.svelte";
   import RevealText from "$components/assets/lego/RevealText.svelte";
   import { onMount } from "svelte";
   import { backInOut } from "svelte/easing";
@@ -24,16 +25,29 @@
 
 
         <RevealText timeout={240}> 
-            <span class="text-[20px] lg:text-[24px] dark:text-lightWeak text-darkWeak font-medium text-center" in:scale={{delay:100}}>Start seeing the documentation</span>
+            <span class="text-[20px] lg:text-[24px] dark:text-lightWeak text-darkWeak font-medium text-center" in:scale={{delay:100}}>
+              Something about this</span>
         </RevealText>
 
+        <div class="flex  items-center gap-6">
         <div in:scale={{delay:340,duration:1000,easing:backInOut}}>
       
-            <Button className="p-2 px-12  font-semibold text-[18px] lg:text-[20px] rounded-full mt-4 
+            <Button className="p-2 px-12 h-full  font-semibold text-[18px] lg:text-[20px] rounded-full mt-4 
             text-lightWeak bg-darkWeak relative overflow-hidden dark:text-darkWeak dark:bg-lightWeak hover:scale-110"
             onClick={()=>goto(base+"/docs/about")}>
-               <b class="z-20">Click here</b> 
+               <b class="z-20">Documentation</b> 
             </Button>
+        </div>
+        <div in:scale={{delay:440,duration:1000,easing:backInOut}}>
+      
+          <Button className="p-2 px-12 h-full font-semibold text-[18px] lg:text-[20px] rounded-full  gap-2 flex items-center 
+          dark:text-lightWeak text-darkWeak"
+          onClick={()=>goto(base+"/docs/about")}>
+             <Git/>
+             <b class="z-20">Source Code</b> 
+          </Button>
+        </div>
+
         </div>
 
     </div>

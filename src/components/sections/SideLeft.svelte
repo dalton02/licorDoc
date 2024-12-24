@@ -8,17 +8,17 @@
 
 <ul class="lg:flex flex-col items-start justify-start gap-2">
     {#each [...documentation.groupByContext()] as [key,value],i}
-        <li class="font-semibold text-[14px] p-[2px] {i>0 ? "mt-12" : ""} px-5 
+        <li class="font-medium text-[15px] p-[2px] {i>0 ? "mt-12" : ""} px-5 
       rounded-lg">
             {key}
         </li>
         {#each value as docObject}
             <li class="ml-4 ">
                 <Link url="/docs/{documentation.titleToUrl(docObject.title)}" 
-                className="hover:dark:bg-lightStrong hover:bg-darkStrong hover:dark:text-darkStrong hover:text-lightStrong 
-                px-4 p-[2px] font-semibold rounded-full text-[16px] ease-in-out
+                className="hover:font-semibold
+                px-4 p-[2px] rounded-full text-[14px] ease-in-out
                 {documentation.titleToUrl(docObject.title) === documentation.currentDocument 
-                ? " " : ""}">
+                ? "font-semibold" : "font-medium"}">
                     {docObject.title.toLowerCase()}
                 </Link>
             </li>
