@@ -141,8 +141,9 @@
 </script>
 
 
-<Button className="hidden lg:flex justify-between rounded-full p-1 px-4 w-[300px] dark:bg-darkStrong bg-lightStrong" onClick={openModal}>
-    <span  class="bg-transparent text-[14px] dark:text-gray-50 text-zinc-800">Search for</span>
+<Button className="hidden lg:flex justify-between rounded-md duration-500 hover:motion-preset-seesaw-sm p-1 px-4 w-[300px] dark:bg-darkStrong bg-lightStrong"
+ onClick={openModal}>
+    <p  class="bg-transparent duration-[2000ms] text-[14px] dark:text-gray-50 text-zinc-800">Search in the docs</p>
 
     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"  class={"dark:fill-white fill-gray-950"} viewBox="0 0 256 256">
         <path d="M228.24,219.76l-51.38-51.38a86.15,86.15,0,1,0-8.48,8.48l51.38,51.38a6,6,0,0,0,8.48-8.48ZM38,112a74,74,0,1,1,74,74A74.09,74.09,0,0,1,38,112Z">
@@ -152,17 +153,25 @@
 
 <PopUp bind:isVisible={isOpen}>
     
-    <div class="flex flex-col p-4 px-2 lg:px-4 dark:bg-darkMid bg-lightMid w-[80vw] flex-shrink lg:w-[60vw] overflow-y-auto max-h-[60svh]  rounded-lg">
+    <div class="flex flex-col  dark:bg-darkMid bg-lightMid w-[80vw] flex-shrink lg:w-[60vw] overflow-y-auto max-h-[60svh]  rounded-lg">
     
-        <input type="text" placeholder="Search for.." bind:value={pesquisa}
-        class="dark:bg-darkWeak bg-lightStrong rounded-lg outline-none px-3 w-full p-2 {mouseState.state.haveCustomCursor ? "lg:hover:cursor-none" : ""}">
-
+        <div class="flex gap-0 p-2 px-6  items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"  class={"dark:fill-white fill-gray-950"} viewBox="0 0 256 256">
+              <path d="M228.24,219.76l-51.38-51.38a86.15,86.15,0,1,0-8.48,8.48l51.38,51.38a6,6,0,0,0,8.48-8.48ZM38,112a74,74,0,1,1,74,74A74.09,74.09,0,0,1,38,112Z">
+              </path>
+          </svg>
+          <input type="text" placeholder="Search for.." bind:value={pesquisa}
+          class="bg-transparent rounded-lg outline-none px-3 w-full p-2 {mouseState.state.haveCustomCursor ? "lg:hover:cursor-none" : ""}">
+        </div>
         {#if [...resultado].length>0}
           <div class="flex flex-col gap-2 p-2">
             {#each [...resultado] as  [key,value]}  
             <Arquivo context={key} matchs={value}/>
             {/each}
           </div>
+        {/if}
+        {#if [...resultado].length===0 && pesquisa.length>=2}
+          <span class="text-[12px] p-12 w-full justify-center items-center flex">No results found</span>
         {/if}
 
 

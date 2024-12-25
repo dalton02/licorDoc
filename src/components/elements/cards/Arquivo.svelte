@@ -37,7 +37,7 @@
 </script>
 
 
-<div class="flex flex-col justify-start items-start p-2 lg:p-4 gap-1 lg:gap-3  dark:bg-darkStrong bg-lightStrong rounded-lg overflow-hidden">
+<div class="flex flex-col justify-start items-start p-2 lg:p-4 gap-1 lg:gap-3  overflow-hidden">
         
     <div class="flex flex-row justify-between w-full">
         <span class="text-[14px] font-semibold p-[2px] px-2 rounded-lg ">

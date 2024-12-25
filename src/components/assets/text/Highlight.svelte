@@ -1,38 +1,37 @@
 <script lang="ts">
+  import { explicitEffect } from "$lib/functions/utils.svelte";
+
 
 
     let {text,indexStart,indexEnd} = $props();
     
-    
+    let formated = $state("")
     function rationize(text2:string,indexStart:number,indexEnd:number):{text:string,indexStart:number,indexEnd:number}{
-    
+        text2 = text2.replace(/<[^>]*>?/gm, '');
         if(indexStart>20){
             const cut = 15 + (indexStart % (20 - 15))
-            return {
-                text:text2.slice(indexStart-cut,99999),
-                indexStart:cut,
-                indexEnd:cut+(indexEnd-indexStart)
-            }
+            formated = text2.slice(indexStart-cut,cut)+
+            "<b class='dark:text-darkWeak2 bg-lightWeak2'>"+text2.slice(indexStart,cut+(indexEnd))+"</b>"
+            console.log(formated)
         }
 
+        formated = text2.slice(0,indexStart)+
+        "<b class='dark:text-darkWeak2 bg-lightWeak2'>"+text2.slice(indexStart,indexEnd)+"</b>"+
+        text2.slice(indexEnd,99999) 
         return {text:text,indexStart,indexEnd};
     }
 
+
+    explicitEffect(()=>{
+        rationize(text,indexStart,indexEnd)
+    },()=>[text,indexStart,indexEnd])
 
 
 </script>
 
 
-<div class="flex flex-row overflow-hidden">
+<p class="overflow-hidden text-[12px] font-medium text-left whitespace-nowrap">
 
-    {#each {length:rationize(text,indexStart,indexEnd).text.length} as _,i}
-    {@const obj = rationize(text,indexStart,indexEnd)}
-        <div class="text-[10px] lg:text-[12px] truncate {i<obj.indexEnd && i>=obj.indexStart ? "dark:text-darkWeak2 bg-lightWeak2" : ""}">
-            {rationize(text,indexStart,indexEnd).text[i]}
-            {#if rationize(text,indexStart,indexEnd).text[i]===" "}
-                <div class="ml-1"></div>
-            {/if}
-        </div>
-    {/each}
+    {@html formated}
 
-</div>
+</p>

@@ -22,6 +22,6 @@
         {@render children?.()}
     </div>
     {#if position==="translate-y-[100%]"}
-    <div class="flex absolute w-full h-full bg-colorful" out:fly={{x:"100%",duration:timeout*3,easing:cubicIn,opacity:1}}></div>
+    <div class="flex absolute w-full h-full dark:bg-lightMid bg-darkMid" out:fly={{x:"100%",duration:timeout*3,easing:cubicIn,opacity:1}}></div>
     {/if}
 </div>

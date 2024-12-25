@@ -8,7 +8,6 @@ body{
   width: 100vw;
 }
 *{
-  transition: all;
   transition-duration:200ms;
 
 }
