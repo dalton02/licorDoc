@@ -3,9 +3,9 @@
   import { onMount } from "svelte";
 
 
-    onMount(()=>{
-        goto("/")
-    })
+    // onMount(()=>{
+    //     goto("/")
+    // })
 
 </script>
 

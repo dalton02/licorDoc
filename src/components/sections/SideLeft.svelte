@@ -6,14 +6,14 @@
 </script>
 
 
-<ul class="lg:flex flex-col items-start justify-start gap-2">
+<ul class="lg:flex flex-col items-start justify-start gap-0">
     {#each [...documentation.groupByContext()] as [key,value],i}
-        <li class="font-medium text-[15px] p-[2px] {i>0 ? "mt-12" : ""} px-5 
+        <li class="font-semibold text-[15px] p-[2px] {i>0 ? "mt-5 " : ""} px-5 
       rounded-lg">
-            {key}
+            {key.toUpperCase()}
         </li>
         {#each value as docObject}
-            <li class="ml-4 ">
+            <li class="ml-1">
                 <Link url="/docs/{documentation.titleToUrl(docObject.title)}" 
                 className="hover:font-bold
                 px-4 p-[2px] rounded-full text-[14px] ease-in-out

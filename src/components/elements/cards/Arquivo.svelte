@@ -70,7 +70,7 @@
                 </svg>        
               {/if}
               <div class="flex flex-col items-start w-[100%] overflow-hidden justify-start">      
-                <h3 class="text-[14px] lg:text-[18px]">{match.subTitle ? match.subTitle : match.title}</h3>             
+                <h3 class="text-[13px] lg:text-[18px]">{match.subTitle ? match.subTitle : match.title}</h3>             
                 <Highlight text={match.text} indexStart={match.indexStart} indexEnd={match.indexEnd}/>
               </div>
             </Button>

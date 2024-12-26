@@ -5,14 +5,14 @@
   import observer from "$lib/functions/observer/Observer.svelte";
   import toast from "$lib/functions/toast/Toast.svelte";
   import { explicitEffect } from "$lib/functions/utils.svelte";
-  import { type DocumentationContentWeak } from "$lib/localData/doc";
+  import { type DocumentationContent } from "$lib/localData/doc";
   import documentation from "$lib/localData/documentation.svelte";
   import { Highlight, HighlightSvelte, LineNumbers } from "svelte-highlight";
   import { expoIn, expoOut } from "svelte/easing";
   import { fly } from "svelte/transition";
   import LinkExternal from "$components/assets/buttons/LinkExternal.svelte";
   import darkStyle from "svelte-highlight/styles/gruvbox-dark-hard"
-  import lightStyle from "svelte-highlight/styles/classic-light"
+  import lightStyle from "svelte-highlight/styles/atom-one-light"
   import themeManager from "$lib/localData/theme.svelte";
 
   let time = 400
@@ -64,13 +64,13 @@ out:fly={{duration:time,y:-1300,opacity:1,easing:expoIn}}>
     
     {#if documentation.getByTitle(documentation.urlToTitle(documentation.currentDocument))}
     {@const doc = documentation.getByTitle(documentation.urlToTitle(documentation.currentDocument))}
-        <h1 class="text-[26px] lg:text-[32px] mb-5">{doc.title}</h1>
+        <h1 class="text-[26px] lg:text-[32px] font-semibold mb-5">{doc.title}</h1>
 
         <div class="block">
             {#each doc.content as c,i}
-                {@const conteudo = c as DocumentationContentWeak}
+                {@const conteudo = c as DocumentationContent}
                 {#if conteudo.blockText}
-                    <p class="text-[14px] lg:text-[16px] leading-8 tracking-normal  dark:text-lightMid text-darkMid text-left">
+                    <p class="text-[14px] lg:text-[16px] font-normal leading-8 tracking-normal  dark:text-lightMid text-darkMid text-left">
                     {#each conteudo.blockText as bloco}
                         {#if bloco.text}
                             {@html (bloco.text)}
@@ -94,9 +94,20 @@ out:fly={{duration:time,y:-1300,opacity:1,easing:expoIn}}>
                 {/if}
 
                 {#if conteudo.subTitle}
-                    <h2 class="text-[18px] lg:text-[20px] dark:text-lightMid text-darkMid 
+                    <h2 class="text-[18px] font-semibold lg:text-[20px] dark:text-lightMid text-darkMid 
                     {i===0 ? "mt-4" : "mt-20"}  mb-4" 
                     data-subTitle={documentation.titleToUrl(conteudo.subTitle)}>{conteudo.subTitle}</h2>
+                {/if}
+
+                {#if conteudo.warning}
+                    <div class="flex flex-row p-5 px-4 text-[14px] relative my-8 w-full dark:bg-darkWeak2 bg-lightWeak2">
+                        <div class="absolute top-0 left-0 w-[2px] h-full dark:bg-lightWeak bg-darkWeak"></div>              
+                        <div class="flex flex-col gap-2">
+                            <b>Warning</b>          
+                            {conteudo.warning}
+                        </div>
+                    </div>
+                
                 {/if}
 
                 {#if conteudo.code}

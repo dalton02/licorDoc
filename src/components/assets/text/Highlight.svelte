@@ -30,7 +30,7 @@
 </script>
 
 
-<p class="overflow-hidden text-[12px] font-medium text-left whitespace-nowrap">
+<p class="overflow-hidden text-[10px] lg:text-[12px] font-medium text-left whitespace-nowrap">
 
     {@html formated}
 

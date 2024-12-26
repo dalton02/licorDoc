@@ -1,12 +1,6 @@
 <script lang="ts">
   import { base } from "$app/paths";
   import { page } from "$app/stores";
-  import Button from "$components/assets/buttons/Button.svelte";
-  import LinkExternal from "$components/assets/buttons/LinkExternal.svelte";
-  import Git from "$components/assets/icons/Git.svelte";
-  import Linkedin from "$components/assets/icons/Linkedin.svelte";
-  import Search from "$components/assets/input/Search.svelte";
-  import TitleBlock from "$components/assets/lego/TitleBlock.svelte";
   import Main from "$components/sections/Main.svelte";
   import SideLeft from "$components/sections/SideLeft.svelte";
   import SideRight from "$components/sections/SideRight.svelte";
@@ -22,7 +16,7 @@
 </script>
   
   
-  
+  {#if documentation.currentDocument}
   <main class="flex flex-row w-screen flex-grow-0 justify-center"> 
       <aside class="hidden lg:flex justify-end sticky p-28 px-12 top-0 h-svh overflow-y-auto flex-grow
       dark:bg-darkStrong bg-lightWeak  dark:text-lightStrong text-darkStrong">
@@ -39,5 +33,5 @@
           </div>
       </aside>
   </main>
-
+  {/if}
   

@@ -2,7 +2,7 @@ class Mouse{
 
     state = $state({
         haveCustomCursor:true,
-        nameCursor:"qiwi",
+        nameCursor:"licor",
     })
 
 }

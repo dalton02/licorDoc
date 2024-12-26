@@ -21,21 +21,21 @@
 <div class="flex w-screen h-screen items-center justify-center">
     <div class="flex flex-col gap-1 justify-center items-center">
         <RevealText timeout={140}> 
-             <h1 class="text-[22px] lg:text-[40px] dark:text-lightStrong text-darkStrong font-semibold" in:scale>LICOR FRAMEWORK</h1>
+             <h1 class="text-[18px] lg:text-[40px] dark:text-lightStrong text-darkStrong font-semibold" in:scale>LICOR FRAMEWORK</h1>
         </RevealText>
 
 
         <RevealText timeout={240}> 
-            <span class="text-[16px] lg:text-[20px] motion-preset-typewriter-[32] dark:text-lightWeak text-darkWeak font-medium text-center" in:scale={{delay:100}}>
+            <span class="text-[14px] lg:text-[20px] motion-preset-typewriter-[32] dark:text-lightWeak text-darkWeak font-medium text-center" in:scale={{delay:100}}>
               Speeding up your web application
             </span>
         </RevealText>
 
-        <div class="flex lg:flex-row flex-col justify-center items-center  gap-6">
+        <div class="flex  justify-center items-center  gap-6">
 
           <div class="h-full flex justify-start items-center " in:scale={{delay:340,duration:1000,easing:backInOut}}>
         
-              <Button className="p-[4px] px-12  font-semibold text-[16px]  rounded-full mt-4 
+              <Button className="p-[4px] px-4 lg:px-12  font-semibold text-[12px] lg:text-[16px]  rounded-full mt-4 
               text-lightWeak bg-darkWeak relative overflow-hidden   dark:text-darkWeak dark:bg-lightWeak hover:scale-110"
               onClick={()=>goto(base+"/docs/about")}>
                 <b class="z-20">Documentation</b> 
@@ -44,7 +44,7 @@
           
           <div class="h-full flex justify-start items-center" in:scale={{delay:440,duration:1000,easing:backInOut}}>
         
-            <LinkExternal className="p-[6px] px-12 h-full group relative translate-y-2 font-semibold text-[16px] rounded-full  gap-2 flex items-center 
+            <LinkExternal className="p-[6px] px-4 lg:px-12  h-full group relative translate-y-2 font-semibold text-[12px] lg:text-[16px]  rounded-full  gap-2 flex items-center 
             dark:text-lightWeak text-darkWeak" url="https://github.com/dalton02/licor">
               <Git/>
               <b class="z-20">Source Code</b> 

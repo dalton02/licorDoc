@@ -1,16 +1,6 @@
 import { bash, go, json, type LanguageType } from "svelte-highlight/languages";
 
-type DocumentationSubContent =
-  | { link: { url: string; label: string; external: boolean } }
-  | { bold: string }
-  | { text: string };
-
-type DocumentationContent =
-  | { subTitle: string }
-  | { blockText: DocumentationSubContent[] }
-  | { code: {code:string,type:LanguageType<string>}};
-
-export type DocumentationContentWeak = {
+export type DocumentationContent = {
   blockText: {
     link: { url: string; label: string; external: boolean };
     text: string;
@@ -18,6 +8,7 @@ export type DocumentationContentWeak = {
   }[];
   code: {code:string,type:LanguageType<string>};
   subTitle: string;
+  warning:string
 };
 export type DocumentationType = {
   title: string;
@@ -58,12 +49,8 @@ function Bold(bold:string){
   return {bold}
 }
 
-function Title(title:string){
-  return {title:title}
-}
-
-function Context(context:string){
-  return {context:context}
+function Warning(warning:string){
+  return {warning}
 }
 
 function SubTitle(subTitle:string){
@@ -88,7 +75,7 @@ function Documentos(...docs:DocumentationType[]){
 }
 
 
-const docAbout:DocumentationType = NovoDocumento("About","Guide",Content(
+const docAbout:DocumentationType = NovoDocumento("About","Introduction",Content(
   SubTitle("What is this?"),
   BlockText(
     Text(`Licor framework is a quick way upon to a clean and easy architeture for your webapplication,
@@ -96,16 +83,13 @@ const docAbout:DocumentationType = NovoDocumento("About","Guide",Content(
     LinkExternal(`Nest JS`,"https://nestjs.com/"), 
     Text(`.<br/><br/>The author original
     intent is to create not just a high configurable environment for your restfull api's, but bring to the developer a handful of popular options
-    to handle with`),
-    Bold(`middlewares`),
-    Bold('permissions'),
-    Bold('jwt'),
-    Bold('tokens'),
-    Text("and"),
-    Bold('JSON/Multipart-formdata'),
-    Text('validations ready to use.'),
-    Text(`<br/><br/>Also take notes that this project is like a newborn child, it is very cute but has a long way to being as powerful as frameworks like Gin.`),
+    to handle with as well a strict pattern to keep a good design to the code itself.`),
+    Text(`Some features of licor included: `),
+    Bold(`Json/Querys validation`),
+    Bold('custom protected routes'),
+    Bold('in built jwt tokens generator'),
   ),
+  Warning(`Also take notes that this project is like a newborn child, it is very cute but has a long way to being as powerful as frameworks like Gin.`),
   SubTitle("Who made this mess?"),
   BlockText(
     Text(`If you have take the interest in this little thing of mine and want to throw some new ideas, you can collab with this project, send me a message
@@ -114,7 +98,7 @@ const docAbout:DocumentationType = NovoDocumento("About","Guide",Content(
   )
 ))
 
-const docQuickStart:DocumentationType=NovoDocumento("Quick Start","Guide",Content(
+const docQuickStart:DocumentationType=NovoDocumento("Quick Start","Introduction",Content(
   SubTitle("Getting started"),
   BlockText(
     Text("Import Licor thought the following command:")
@@ -136,12 +120,11 @@ import (
 	"github.com/dalton02/licor/licor"
 )
 
-func HelloWorld(response http.ResponseWriter, request *http.Request) {
+func HelloWorld(response http.ResponseWriter, request *http.Request) httpkit.HttpMessage{
 	jsonData := map[string]interface{}{
 		"data": "Hello World",
 	}
-	httpkit.AppSucess("Message received", jsonData, response)
-	return
+	return httpkit.AppSucess("Message received", jsonData, response)
 }
 
 func main() {
@@ -149,22 +132,21 @@ func main() {
   licor.Public[any, any]("/helloworld").Get(HelloWorld)
   licor.Init(port)
 }`),
-SubTitle("Author Intent"),
+SubTitle("Cherry Cake"),
 BlockText(
-  Text(`In the original scope of this project, my intention was not only to design and organize the files but also to provide a 
-    standardized folder structure for developers. <br/> Although the application is flexible and can function with any organizational approach, I strongly recommend the repository that demonstrates a specific modular structure. 
-    <br/> This structure is designed to simplify maintenance and enhance the scalability of the framework.`),
-  Text(`<br/><br/>You can find in the following repository: `),
+  Text(`In the original scope of this project, I was building a folder structure that I think best fits this project, 
+    following a module folder structure and keeping the routes separate from the controllers and services of the application. 
+    <br/> <br/> If you are starting a new project and want a good approach to keep things organized, I recommend downloading the following repository:`),
   LinkExternal("Base Licor","https://github.com"),
   
 ),
 ))
 
-const docPrivates:DocumentationType = NovoDocumento("Routes","Reference",Content(
+const docPrivates:DocumentationType = NovoDocumento("Routes","Overview",Content(
 BlockText(
-    Text(`Every licor route must have either a Public or Private type route, thus either of them will share some similarities with respect of validating
+    Text(`Every licor route must have either a Public or Protected route, thus either of them will share some similarities with respect of validating
     json schemas and querys, that can be read about in the `),
-    LinkInternal("validation",""),
+    LinkInternal("validation","/docs/validation"),
     Text(" section.")
 ),
 SubTitle("Public"),
@@ -196,15 +178,39 @@ BlockText(
   Text(`Then check if this user profile match some of the permissions type in the route, if not, it throws a `),
   Bold(`401 http message`)
 ),
-SubTitle("Custom"),
+SubTitle("Types"),
 BlockText(
-  Text(`In the future i will make a Custom route type, to make the framework more flexible!!`)
+  Text(`There is many ways a backend can receive a token, with cookies,headers or even in the body in some cases. Licor will try to cover most of the popular use cases`)
 ),
+SubTitle("Authorization Header"),
+BlockText(
+  Text(`It's the default licor behavior for protection, when accessing a protected route in this mode, you must send a Bearer Token in the request:  `)
+),
+Code(`{
+  "method": "GET",
+  "url": "https://api.example.com/api/example",
+  "headers": {
+    "Authorization": "Bearer <token>",
+    "Content-Type": "application/json"
+  },
+}`,json),
+
+Code(`func main() {
+
+	licor.SetBearerTokenAuthorizationHeader() //Setting authorization mode
+
+	licor.Public[any, any]("/retrieve").Get(retrieve)
+	licor.Protected[any, any]("/access").Get(access)
+	licor.Protected[any, any]("/access-admin", "admin").Get(accessAdmin)
+
+	licor.Init("3003")
+}`),
+Warning(`For now, just this use case is covered, in the future i will be putting others`)
 ))
 
 
 
-const docValidation:DocumentationType = NovoDocumento("Validation","Reference",Content(
+const docValidation:DocumentationType = NovoDocumento("Validation","Overview",Content(
 BlockText(
     Text(`The author most favorite (and painful to make) part of the project, it uses the new Go Generic, so make sure you have the last up to date version`),
 ),
@@ -220,7 +226,7 @@ Code(`licor.Public[dto.YOURDTOJSONSCHEMA, dto.YOURDTOQUERYSCHEMA]("/route").Post
 SubTitle("Json Validation"),
 BlockText(
   Text(`To declare the dto, you must create a type struct with `),
-  Bold(`validators`),
+  Bold(`validator`),
   Text(` declarations`)
 ),
 Code(`package dto

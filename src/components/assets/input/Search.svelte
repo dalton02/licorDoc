@@ -5,9 +5,9 @@
   import { SvelteMap } from "svelte/reactivity";
   import Button from "../buttons/Button.svelte";
   import Highlight from "../text/Highlight.svelte";
-  import type { DocumentationContentWeak, DocumentationType } from "$lib/localData/doc";
+  import type { DocumentationContent, DocumentationType } from "$lib/localData/doc";
   import { untrack } from "svelte";
-  import { mathematica } from "svelte-highlight/languages";
+  import { mathematica, type LanguageType } from "svelte-highlight/languages";
   import Arquivo from "$components/elements/cards/Arquivo.svelte";
   import observer from "$lib/functions/observer/Observer.svelte";
   import { explicitEffect } from "$lib/functions/utils.svelte";
@@ -64,7 +64,7 @@
 
   function findLastSubtitle(doc:DocumentationType,index:number){
     for(let i=index;i>=0;i-=1){
-      const content = doc.content[i] as DocumentationContentWeak
+      const content = doc.content[i]
       if(content.subTitle && i<index){
         return content.subTitle
       }
@@ -72,7 +72,7 @@
     return null
   }
 
-  function handleBlockText(content:{text?:string,bold?:string,link?:{label:string,url:string,external:boolean}[]}){
+  function handleBlockText(content:{ link: { url: string; label: string; external: boolean; }; text: string; bold: string; }[]){
     let textoConcatenado = ""
     for(let i in content){
       const keys = Object.keys(content[i]);
@@ -90,7 +90,7 @@
     return match
   }
 
-  function handleBlockCode(code:{code:string,type:string}){
+  function handleBlockCode(code:{code:string,type:LanguageType<string>}){
     const match = code.code.toLowerCase().match(pesquisa.toLowerCase())
     return match
   }
@@ -101,6 +101,7 @@
 
       for(let i in documentation.document){
         const docAtual = documentation.document[i];
+
         for(let j in docAtual.content){
 
           const content = docAtual.content[j];
