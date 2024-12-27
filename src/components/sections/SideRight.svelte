@@ -1,11 +1,8 @@
 <script lang="ts">
-  import { goto } from "$app/navigation";
-  import { page } from "$app/stores";
     import Button from "$components/assets/buttons/Button.svelte";
-  import observer from "$lib/functions/observer/Observer.svelte";
-    import { type DocumentationContentWeak } from "$lib/localData/doc";
+    import observer from "$lib/functions/observer/Observer.svelte";
     import documentation from "$lib/localData/documentation.svelte";
-  import { fly } from "svelte/transition";
+    import { fly } from "svelte/transition";
 
 
     let {data} = $props()
@@ -32,10 +29,10 @@
         out:fly={{x:600,duration:500}}
         >
         {#each summary.content as doc}
-        {@const conteudo = doc as DocumentationContentWeak}
+        {@const conteudo = doc}
             {#if conteudo.subTitle}
                 <Button onClick={()=>scroll(conteudo.subTitle)} 
-                className="hover:underline font-medium text-[14px]">
+                className="hover:underline text-left font-medium text-[14px]">
                 {conteudo.subTitle}
                 </Button>
             {/if}

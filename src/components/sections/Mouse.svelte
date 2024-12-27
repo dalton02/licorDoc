@@ -21,13 +21,21 @@
     }
   }
 
+  function onLeave(event){
+    mouseState.state.isInside=false
+  }
+
+  function onEnter(event){
+    mouseState.state.isInside=true
+  }
 
 
 </script>
 
 <svelte:window onmousemove={movement}/>
+<svelte:document onmouseleave={onLeave} onmouseenter={onEnter}/>
 
-{#if mouseState.state.haveCustomCursor} 
+{#if mouseState.state.haveCustomCursor && mouseState.state.isInside} 
     <div class="fixed duration-0 transition-none lg:block hidden pointer-events-none z-50 "  bind:this={svgCursor}>
           <svg width="24" height="24" viewBox="0 0 267 267" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g clip-path="url(#clip0_21_727)">

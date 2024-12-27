@@ -1,3 +1,4 @@
+
 import { bash, go, json, type LanguageType } from "svelte-highlight/languages";
 
 export type DocumentationContent = {
@@ -89,7 +90,7 @@ const docAbout:DocumentationType = NovoDocumento("About","Introduction",Content(
     Bold('custom protected routes'),
     Bold('in built jwt tokens generator'),
   ),
-  Warning(`Also take notes that this project is like a newborn child, it is very cute but has a long way to being as powerful as frameworks like Gin.`),
+  Warning(`Also take notes that this project is like a newborn child, it's very cute but has a long way to being as powerful as frameworks like Gin.`),
   SubTitle("Who made this mess?"),
   BlockText(
     Text(`If you have take the interest in this little thing of mine and want to throw some new ideas, you can collab with this project, send me a message
@@ -137,14 +138,14 @@ BlockText(
   Text(`In the original scope of this project, I was building a folder structure that I think best fits this project, 
     following a module folder structure and keeping the routes separate from the controllers and services of the application. 
     <br/> <br/> If you are starting a new project and want a good approach to keep things organized, I recommend downloading the following repository:`),
-  LinkExternal("Base Licor","https://github.com"),
+  LinkExternal("Template","https://github.com/dalton02/licorTemplate"),
   
 ),
 ))
 
 const docPrivates:DocumentationType = NovoDocumento("Routes","Overview",Content(
 BlockText(
-    Text(`Every licor route must have either a Public or Protected route, thus either of them will share some similarities with respect of validating
+    Text(`Every licor route must have either a Public or Protected endpoint, thus either of them will share some similarities with respect of validating
     json schemas and querys, that can be read about in the `),
     LinkInternal("validation","/docs/validation"),
     Text(" section.")
@@ -178,7 +179,7 @@ BlockText(
   Text(`Then check if this user profile match some of the permissions type in the route, if not, it throws a `),
   Bold(`401 http message`)
 ),
-SubTitle("Types"),
+SubTitle("Protected Types"),
 BlockText(
   Text(`There is many ways a backend can receive a token, with cookies,headers or even in the body in some cases. Licor will try to cover most of the popular use cases`)
 ),
@@ -200,14 +201,72 @@ Code(`func main() {
 	licor.SetBearerTokenAuthorizationHeader() //Setting authorization mode
 
 	licor.Public[any, any]("/retrieve").Get(retrieve)
-	licor.Protected[any, any]("/access").Get(access)
-	licor.Protected[any, any]("/access-admin", "admin").Get(accessAdmin)
+	licor.Protected[any, any]("/access").Get(access) //Any user with a valid token can access
+	licor.Protected[any, any]("/access-admin", "admin").Get(accessAdmin) //Just a admin user can access
 
 	licor.Init("3003")
 }`),
-Warning(`For now, just this use case is covered, in the future i will be putting others`)
+Warning(`For now, just this use case is covered, in the future i will be putting others`),
 ))
 
+const docFunctions:DocumentationType = NovoDocumento("Functions","Overview",Content(
+  SubTitle("Licor Functions"),
+  BlockText(
+    Text(`Every licor function behaves like a net/http function, will receive the ResponseWriter and the Request as usual, but must return a httpkit.HttpMessage`)
+  ),
+  Code(`func mainFunction(response http.ResponseWriter, request *http.Request) (httpkit.HttpMessage) {
+    
+    var message httpkit.HttpMessage
+    var data any
+
+    //Code to be executed
+    message = httpkit.AppSucess("Operation sucess",data)
+
+    return message, true
+}`),
+  SubTitle(`MiddleWares`),
+  BlockText(
+    Text(`To add middlewares in your route, you must put them after the main function to be executed: `)
+  ),
+  Code(`licor.Public[any, any]("/route-of-middlewares").Get(mainFunction,middle1,middle2)`),
+  BlockText(
+    Text(`In the above case, the application will pass first to the middle1, following by the middle2, and if all them pass,
+    then the mainFunction will be executed`)
+  ),
+  SubTitle(`What to return in a middleware`),
+  BlockText(
+    Text(`When creating a middleware function, you must add one more value to the return function, now you will be returning a `),
+    Bold(`httpkit.HttpMessage`),
+    Text(` following by a `),
+    Bold(`boolean`)
+  ),
+  Code(`func middle1(response http.ResponseWriter, request *http.Request) (httpkit.HttpMessage, bool) {
+    var message httpkit.HttpMessage
+    fmt.Println("Everything good around here, will proceed to the next middleware")
+    return message, true
+  }
+  
+  func middle2(response http.ResponseWriter, request *http.Request) (httpkit.HttpMessage, bool) {
+    var message httpkit.HttpMessage
+    message = httpkit.AppBadRequest("Something went wrong, can't proceed operation") //This message will be returning to the client
+    return message, false
+  }
+  
+  func mainFunction(response http.ResponseWriter, request *http.Request) (httpkit.HttpMessage, bool) {
+    var message httpkit.HttpMessage
+    fmt.Println("This function will not be executed")
+    return message, true
+  
+  }
+  
+  func main(){
+    licor.Public[any,any]("/route-of-middlewares").Get(mainFunction,middle1,middle2)
+  }
+  `),
+  BlockText(
+    Text(`Returning false in the boolean will (obvious) break the chain of functions and return the http message that was returned by the breaker middleware`)
+  ),
+))
 
 
 const docValidation:DocumentationType = NovoDocumento("Validation","Overview",Content(
@@ -236,7 +295,7 @@ type UserLogin struct {
 }
 `),
 BlockText(
-  Text(`We use in union with the json declaration to specify how the schema will be theated. <br/> <br/> In this example we are saying 
+  Text(`We use in union with the json declaration to specify how the schema will be treated. <br/> <br/> In this example we are saying 
   that login and code are required propretys and login must be a string, as per code must be a int, the type declaration will be taken in account as well
   <br/><br/> 
   `)
@@ -321,7 +380,6 @@ Code(`httpkit.GetBearerToken(auth string) string`),
 SubTitle("URL Parameters"),
 BlockText(
   Text("Returns a struct with the count of URL parameters and a map for accessing the parameter values.<br/>"),
-  Bold("Error Handling: Throws an error if parameters cannot be retrieved."),
 ),
 Code(`httpkit.GetUrlParams(request *http.Request) (dtoRequest.Params, error)`),
 
@@ -346,12 +404,103 @@ Code(`httpkit.AppInternal(message string, response http.ResponseWriter)`),
 Code(`httpkit.AppNotImplemented(message string, response http.ResponseWriter)`),
 ))
   
+  
+const docresponses:DocumentationType = NovoDocumento("Responses","Overview",Content(
+
+  SubTitle("How to respond a request"),
+  BlockText(
+    Text(`Every http function must return a `),
+    Bold(`httpkit.HttpMessage`),
+    Text(` that is the pattern of responses that your server currently have, every HttpMessage will have the following structure`)
+  ),
+  Code(`{
+  message: "Some message you like to send",
+  data: {
+    item1: "any data struct you want",
+    item2: "will be put",
+    nest:{
+      item3: "here"
+    },
+  statusCode: 200
+  }    
+}`,json),
+BlockText(
+  Text(`In the httpkit package you will receive many auxiliar functions to send this messages, correctly named in the use cases that you want to send. <br/><br/>`),
+  Text(`Example: You want to send that a account was `),
+  Bold(`Created`),
+  Text(`?`)
+),
+Code(`return httpkit.AppSucessCreate("User was created", yourData)`),
+BlockText(
+  Text(`Too see more functions check the section of responses in `),
+  LinkInternal(`httpkit`,`/docs/httpkit`)
+), 
+));
+
+    
+const docvalidator:DocumentationType = NovoDocumento("Validator","Reference",Content(
+
+  SubTitle("Required"),
+  BlockText(
+    Text(`Set the JSON field to be mandatory and of the same type as inferred by the struct.`),
+  ),
+  Code(`type Test struct {
+  Name   string ${'`json:"name" validator:"required"`'} // This field must be a string
+  Number int    ${'`json:"number" validator:"required"`'} // This field must be an integer
+}`),
+
+  SubTitle("Optional"),
+  BlockText(
+    Text(`Set the JSON field to be optional and allow omitting it during validation.`),
+  ),
+  Code(`type Test struct {
+  MiddleName string ${'`json:"middle_name" validator:"optional"`'} // This field can be omitted
+}`),
+
+  SubTitle("NumericString"),
+  BlockText(
+    Text(`Ensure that the field contains a string representing a numeric value.`),
+  ),
+  Code(`type Test struct {
+  Age string ${'`json:"age" validator:"numericString"`'} // This field must be a numeric string
+}`),
+
+  SubTitle("StrongPassword"),
+  BlockText(
+    Text(`Validate that the field contains a strong password. A strong password includes upper and lower case characters, numbers, and special characters.`),
+  ),
+  Code(`type Test struct {
+  Password string ${'`json:"password" validator:"strongPassword"`'} // This field must be a strong password
+}`),
+
+  SubTitle("Email"),
+  BlockText(
+    Text(`Validate that the field contains a valid email address.`),
+  ),
+  Code(`type Test struct {
+  Email string ${'`json:"email" validator:"email"`'} // This field must be a valid email address
+}`),
+
+  SubTitle("DateString"),
+  BlockText(
+    Text(`Ensure that the field contains a valid date string format.`),
+  ),
+  Code(`type Test struct {
+  BirthDate string ${'`json:"birth_date" validator:"dateString"`'} // This field must be a valid date string
+}`)
+
+));
+
+    
 
 export const doc: DocumentationType[] = Documentos(  
  docAbout,
  docQuickStart,
  docPrivates,
  docValidation,
- dockit
+ docresponses,
+ dockit,
+ docFunctions,
+ docvalidator,
 );
 console.log(doc)

@@ -16,6 +16,7 @@
   import observer from "$lib/functions/observer/Observer.svelte";
   import MenuMoblie from "$components/sections/MenuMoblie.svelte";
   import { goto } from "$app/navigation";
+  import Paper from "$components/elements/cards/Paper.svelte";
 
   onMount(()=>{
     document.documentElement.classList.remove("dark")
@@ -27,16 +28,17 @@
   <title>Licor - Framework</title>
 
 </svelte:head>
-
+  <Paper/>
   <div class="fixed flex w-screen justify-center h-screen top-0 left-0 z-50 pointer-events-none">
     <LayoutToast/>
   </div>
 
-  <div class="relative overflow-clip w-screen {mouseState.state.haveCustomCursor ? "lg:cursor-none" : ""} {themeManager.theme} dark:bg-darkWeak bg-lightWeak">
-
-    <header class="p-4 px-8 lg:px-24 z-10 fixed w-svw items-center top-0 font-semibold text-[18px] dark:text-gray-100 text-[#324B4F] flex flex-row gap-2 
-    justify-between dark:bg-darkWeak bg-lightWeak shadow-lg">
+  <div class="relative overflow-clip  w-screen {mouseState.state.haveCustomCursor ? "lg:cursor-none" : ""} {themeManager.theme} dark:bg-darkWeak bg-lightWeak">
     
+    <Paper/>
+    <header class="p-4 px-8  lg:px-24 z-20 fixed w-svw items-center top-0 font-semibold text-[18px] dark:text-gray-100 text-[#324B4F] flex flex-row gap-2 
+    justify-between dark:bg-darkWeak bg-lightWeak shadow-lg">
+
     <Button className="text-[18px]" onClick={()=>goto(base+"/")}>
        Licor
     </Button>
@@ -100,5 +102,4 @@
     </footer>
     
   </div>
-<style>
-</style>
+

@@ -12,7 +12,7 @@
   import { fly } from "svelte/transition";
   import LinkExternal from "$components/assets/buttons/LinkExternal.svelte";
   import darkStyle from "svelte-highlight/styles/gruvbox-dark-hard"
-  import lightStyle from "svelte-highlight/styles/atom-one-light"
+  import lightStyle from "svelte-highlight/styles/equilibrium-gray-light"
   import themeManager from "$lib/localData/theme.svelte";
 
   let time = 400
@@ -22,7 +22,7 @@
   function copyText(text:string){
 
         navigator.clipboard.writeText(text).then(()=>{
-            toast.push("Codigo cópiado",{timeout:1200})
+            toast.push("Code in the clipboard",{timeout:1200})
         })
   }
 
@@ -100,7 +100,7 @@ out:fly={{duration:time,y:-1300,opacity:1,easing:expoIn}}>
                 {/if}
 
                 {#if conteudo.warning}
-                    <div class="flex flex-row p-5 px-4 text-[14px] relative my-8 w-full dark:bg-darkWeak2 bg-lightWeak2">
+                    <div class="flex flex-row p-5 px-4 text-[14px] relative my-8 w-full dark:bg-darkWeak2 bg-lightStrong">
                         <div class="absolute top-0 left-0 w-[2px] h-full dark:bg-lightWeak bg-darkWeak"></div>              
                         <div class="flex flex-col gap-2">
                             <b>Warning</b>          
@@ -113,13 +113,16 @@ out:fly={{duration:time,y:-1300,opacity:1,easing:expoIn}}>
                 {#if conteudo.code}
                     <div class="flex dark:bg-darkStrong font-roboto text-[12px] bg-lightStrong p-3 pt-2 overflow-hidden my-5 w-full rounded-lg flex-col">
 
-                        <Button className="flex flex-row group justify-end gap-2 py-2" onClick={()=>{copyText(conteudo.code.code)}}>
-                            <span class="dark:text-white group-hover:text-slate-500 duration-300 text-[12px] ease-in-out">Copy</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"  class={"dark:fill-white fill-gray-950"} viewBox="0 0 256 256">
-                                <path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z">
-                                </path>
-                            </svg>
-                        </Button>
+                        <div class="flex flex-row w-full justify-end">
+                            <Button className="flex group gap-2 py-2" onClick={()=>{copyText(conteudo.code.code)}}>
+                                <span class="dark:text-white group-hover:text-slate-500 duration-300 text-[12px] ease-in-out">Copy</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"  class={"dark:fill-white fill-gray-950"} viewBox="0 0 256 256">
+                                    <path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z">
+                                    </path>
+                                </svg>
+                            </Button>
+                            
+                        </div>
                         
                         <Highlight   language={conteudo.code.type} class="rounded-lg overflow-hidden w-[87vw] lg:w-auto" code={conteudo.code.code}>
                         </Highlight>

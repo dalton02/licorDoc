@@ -2,6 +2,7 @@ class Mouse{
 
     state = $state({
         haveCustomCursor:true,
+        isInside:true,
         nameCursor:"licor",
     })
 
