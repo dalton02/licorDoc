@@ -561,4 +561,3 @@ export const doc: DocumentationType[] = Documentos(
  docvalidator,
  docLicor
 );
-console.log(doc)

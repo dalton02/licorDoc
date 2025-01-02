@@ -83,7 +83,6 @@
         dX = dX*-1;      
         dY = dY*-1;
         
-        // console.log(dX)
 
         forceX = dX;
         forceY = dY;

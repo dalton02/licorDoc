@@ -12,7 +12,6 @@
             const cut = 15 + (indexStart % (20 - 15))
             formated = text2.slice(indexStart-cut,cut)+
             "<b class='dark:text-darkWeak2 bg-lightWeak2'>"+text2.slice(indexStart,cut+(indexEnd))+"</b>"
-            console.log(formated)
         }
 
         formated = text2.slice(0,indexStart)+
