@@ -9,7 +9,8 @@ export type DocumentationContent = {
   }[];
   code: {code:string,type:LanguageType<string>};
   subTitle: string;
-  warning:string
+  warning:string;
+  note:string;
 };
 export type DocumentationType = {
   title: string;
@@ -54,6 +55,9 @@ function Warning(warning:string){
   return {warning}
 }
 
+function Note(note:string){
+  return {note}
+}
 function SubTitle(subTitle:string){
   return {subTitle}
 }
@@ -135,8 +139,9 @@ func main() {
 }`),
 SubTitle("Cherry Cake"),
 BlockText(
-  Text(`In the original scope of this project, I was building a folder structure that I think best fits this project, 
-    following a module folder structure and keeping the routes separate from the controllers and services of the application. 
+  Text(`In the initial scope of this project, I designed a folder structure that I believe best suits its needs. 
+    This structure follows a modular approach, keeping routes separate from the application's controllers and services.
+    <br/> It kinda suits the framework.
     <br/> <br/> If you are starting a new project and want a good approach to keep things organized, I recommend downloading the following repository:`),
   LinkExternal("Template","https://github.com/dalton02/licorTemplate"),
   
@@ -181,7 +186,8 @@ BlockText(
 ),
 SubTitle("Protected Types"),
 BlockText(
-  Text(`There is many ways a backend can receive a token, with cookies,headers or even in the body in some cases. Licor will try to cover most of the popular use cases`)
+  Text(`There is many ways a backend can authenticate a user, with cookies, tokens or sessions. 
+    <br/>Licor will try to cover most of the popular use cases, but for now we have this possibilities`)
 ),
 SubTitle("Authorization Header"),
 BlockText(
@@ -200,13 +206,29 @@ Code(`func main() {
 
 	licor.SetBearerTokenAuthorizationHeader() //Setting authorization mode
 
+  //If you want to rewrite the custom error messages
+	licor.SetCustomInvalidTokenMessage("This token is invalid")
+	licor.SetCustomNotAuthorizedMessage("Token is valid, but your profile does not have access to the content")
+
+
 	licor.Public[any, any]("/retrieve").Get(retrieve)
 	licor.Protected[any, any]("/access").Get(access) //Any user with a valid token can access
 	licor.Protected[any, any]("/access-admin", "admin").Get(accessAdmin) //Just a admin user can access
 
 	licor.Init("3003")
 }`),
-Warning(`For now, just this use case is covered, in the future i will be putting others`),
+SubTitle("Custom Protection"),
+BlockText(
+  Text(`If you want to set your own protection you can write your function returning the following values: `)
+),
+Code(`func myCustomProtection(response http.ResponseWriter, request *http.Request, extras ...any) (bool, *http.Request, httpkit.HttpMessage)`),
+BlockText(
+  Text(`In the main function you set: `)
+),
+Code(`func main(){
+	licor.SetCustomProtection(myCustomProtection)  
+}`),
+Note(`In the custom function you can return the request with a context to access new values`),
 ))
 
 const docFunctions:DocumentationType = NovoDocumento("Functions","Overview",Content(
@@ -226,7 +248,8 @@ const docFunctions:DocumentationType = NovoDocumento("Functions","Overview",Cont
 }`),
   SubTitle(`MiddleWares`),
   BlockText(
-    Text(`To add middlewares in your route, you must put them after the main function to be executed: `)
+    Text(`To incorporate middlewares into your route, simply list them after the primary handler function. 
+      <br/>The middleware functions will execute sequentially, and the main function will only be invoked if all middlewares are passed.`)
   ),
   Code(`licor.Public[any, any]("/route-of-middlewares").Get(mainFunction,middle1,middle2)`),
   BlockText(
@@ -264,7 +287,7 @@ const docFunctions:DocumentationType = NovoDocumento("Functions","Overview",Cont
   }
   `),
   BlockText(
-    Text(`Returning false in the boolean will (obvious) break the chain of functions and return the http message that was returned by the breaker middleware`)
+    Text(`Returning false in the boolean will (obviously) break the chain of functions and send to the client the http message that was returned by the failed middleware`)
   ),
 ))
 
@@ -354,7 +377,7 @@ BlockText(
   Text(`Call to generate your jwt data token.<br/>`),
   Bold(`warning: you must have in your .env file a JWT_SECRET`)
 ),
-Code(`httpkit.GenerateJwt[T any](data T) (string, error) `),
+Code(`httpkit.GenerateJwt[T any](data T,minutes int) (string, error) `),
 
 
 SubTitle("Extract JWT"),
@@ -481,6 +504,7 @@ const docvalidator:DocumentationType = NovoDocumento("Validator","Reference",Con
   Email string ${'`json:"email" validator:"email"`'} // This field must be a valid email address
 }`),
 
+
   SubTitle("DateString"),
   BlockText(
     Text(`Ensure that the field contains a valid date string format.`),
@@ -491,6 +515,26 @@ const docvalidator:DocumentationType = NovoDocumento("Validator","Reference",Con
 
 ));
 
+const docLicor:DocumentationType = NovoDocumento("Licor","Reference",Content(
+
+  SubTitle("Methods"),
+  Code(`licor.Public[any,any].Post(func)`),
+  Code(`licor.Public[any,any].Put(func)`),
+
+  Code(`licor.Public[any,any].Get(func)`),
+  Code(`licor.Public[any,any].Patch(func)`),
+  Code(`licor.Public[any,any].Delete(func)`),
+  Code(`licor.Public[any,any].FormData(func)`),
+
+  SubTitle(`Configuration`),
+  Code(`licor.Init(string)`),
+  Code(`licor.SetMaxSizeFormData(int)`),
+  Code(`licor.SetCustomProtection(func)`),
+  Code(`licor.SetCustomInvalidTokenMessage(string)`),
+  Code(`licor.SetCustomNotAuthorizedMessage(string)`),
+  Code(`licor.SetMaxSizeFormData(int)`),
+
+))
     
 
 export const doc: DocumentationType[] = Documentos(  
@@ -502,5 +546,6 @@ export const doc: DocumentationType[] = Documentos(
  dockit,
  docFunctions,
  docvalidator,
+ docLicor
 );
 console.log(doc)

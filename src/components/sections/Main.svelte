@@ -107,7 +107,16 @@ out:fly={{duration:time,y:-1300,opacity:1,easing:expoIn}}>
                             {conteudo.warning}
                         </div>
                     </div>
-                
+                {/if}
+
+                {#if conteudo.note}
+                    <div class="flex flex-row p-5 px-4 text-[14px] relative my-8 w-full dark:bg-darkWeak2 bg-lightStrong">
+                        <div class="absolute top-0 left-0 w-[2px] h-full dark:bg-lightWeak bg-darkWeak"></div>              
+                        <div class="flex flex-col gap-2">
+                            <b>Tip</b>          
+                            {conteudo.note}
+                        </div>
+                    </div>
                 {/if}
 
                 {#if conteudo.code}

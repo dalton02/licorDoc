@@ -5,6 +5,7 @@
   import LinkExternal from "$components/assets/buttons/LinkExternal.svelte";
   import Git from "$components/assets/icons/Git.svelte";
   import RevealText from "$components/assets/lego/RevealText.svelte";
+  import Mascote from "$components/elements/cards/Mascote.svelte";
   import { onMount } from "svelte";
   import { backInOut } from "svelte/easing";
   import { fade, scale } from "svelte/transition";
@@ -18,7 +19,7 @@
 </script>
 
 {#if mount}
-<div class="flex w-screen h-screen items-center justify-center">
+<div class="flex w-screen h-screen items-center relative justify-center">
     <div class="flex flex-col gap-1 justify-center items-center">
         <RevealText timeout={140}> 
              <h1 class="text-[18px] lg:text-[40px] dark:text-lightStrong text-darkStrong font-semibold" in:scale>LICOR FRAMEWORK</h1>
@@ -56,6 +57,7 @@
         </div>
 
     </div>
+    <Mascote/>
 
 </div>
 {/if}
