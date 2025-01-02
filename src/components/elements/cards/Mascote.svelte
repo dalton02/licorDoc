@@ -14,6 +14,38 @@
     let xPos2 = $state<number>(260);
     let yPos2 = $state<number>(88);
     let speech = $state<string>(phrases[0])
+
+
+    let painLeft = $state<number>(0)
+    let painRight = $state<number>(0)
+
+    function painLevel(distanceLeft,distanceRight){
+        const minEffect = 140;
+        const limitPain = 40;
+        const maxRange = 80;
+        const divisor = 4;
+        if(distanceLeft<minEffect){
+            const power = distanceLeft/divisor
+            painLeft = power<limitPain ? power : limitPain
+            if(distanceLeft<maxRange){
+                painLeft=50;
+            }
+        }
+        else{
+            painLeft=0;
+        }
+        if(distanceRight<minEffect){
+            const power = distanceRight/divisor
+            painRight = power<limitPain ? power : limitPain
+            if(distanceRight<maxRange){
+                painRight=50;
+            }
+        }
+        else{
+            painRight=0;
+        }
+
+    }
     function eyeball(event) {
         // Eye 1
         const eyeRect1 = eye1.getBoundingClientRect();
@@ -29,9 +61,13 @@
         const xMouse = event.clientX;
         const yMouse = event.clientY;
 
+        const distanceLeft = Math.sqrt(Math.pow(xMouse - xCenter1, 2) + Math.pow(yMouse - yCenter1, 2));
+        const distanceRight = Math.sqrt(Math.pow(xMouse - xCenter2, 2) + Math.pow(yMouse - yCenter2, 2));
+        painLevel(distanceLeft,distanceRight)
         // Eye 1: Calcula o deslocamento do mouse em relação ao centro do olho
         const deltaX1 = xMouse - xCenter1;
         const deltaY1 = yMouse - yCenter1;
+      
 
         // Eye 2: Calcula o deslocamento do mouse em relação ao centro do olho
         const deltaX2 = xMouse - xCenter2;
@@ -57,10 +93,10 @@
 
         // Atualiza as posições limitadas
         xPos1 = 150 + Math.cos(angle1) * limitedX1;
-        yPos1 = 88 + Math.sin(angle1) * limitedY1;
+        yPos1 = 88 + Math.sin(angle1) * (limitedY1-(painLeft));
 
         xPos2 = 288 + Math.cos(angle2) * limitedX2;
-        yPos2 = 88 + Math.sin(angle2) * limitedY2;
+        yPos2 = 88 + Math.sin(angle2) * (limitedY2-(painRight));
      }
 
     function cyclePhrases() {
@@ -68,7 +104,7 @@
         setInterval(() => {
             speech = phrases[index];
             index = (index + 1) % phrases.length;
-        }, 1800);
+        }, 1700);
     }
     cyclePhrases()
 </script>
@@ -136,14 +172,16 @@
 		"/>
 	
     <!-- Eye Left -->
-	<ellipse fill="white" stroke="#000000" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" cx="144.121" cy="91.595" rx="54.9" ry="53.1"/>
-    <circle cx={xPos1} cy={yPos1} class="duration-0 transition-none" r="18.9" bind:this={eye1}/>
-    <circle fill="#FFFFFF" cx={xPos1+6} cy={yPos1+3} r="5.4" class="duration-[50ms] transition-none"/>
+	<ellipse fill="white" stroke="#000000" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" 
+    cx="144.121" cy="91.595" rx="54.9" ry={53.1-painLeft}/>
+    <circle cx={xPos1} cy={yPos1} class="transition-[r] duration-75" r={painLeft>=50 ? 0 : 18.9} bind:this={eye1}/>
+    <circle fill="#FFFFFF" cx={xPos1+6} cy={yPos1+3} r={painLeft>=50 ? 0 : 5.4} class=" transition-none"/>
     <!-- Eye Right -->
-	<ellipse fill="white" stroke="#000000" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" cx="281.821" cy="85.294" rx="54.9" ry="53.1"/>
+	<ellipse fill="white" stroke="#000000" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" 
+    cx="281.821" cy="91.595" ry={53.1-painRight} rx="54.9"/>
 	
-    <circle cx={xPos2} cy={yPos2} r="18.9"  class="duration-0 transition-none" bind:this={eye2}/>
-	<circle fill="#FFFFFF" cx={xPos2+5} cy={yPos2+3} r="5.4"  class="duration-0 transition-none"/>
+    <circle cx={xPos2} cy={yPos2} r={painRight>=50 ? 0 : 18.9}  class="transition-[r] duration-75" bind:this={eye2}/>
+	<circle fill="#FFFFFF" cx={xPos2+5} cy={yPos2+3} r={painRight>=50 ? 0 : 5.4}  class="duration-0 transition-none"/>
 
     <!-- Tooth -->
     <path fill="white" stroke="#000000" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="

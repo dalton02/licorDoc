@@ -94,11 +94,10 @@ const docAbout:DocumentationType = NovoDocumento("About","Introduction",Content(
     Bold('custom protected routes'),
     Bold('in built jwt tokens generator'),
   ),
-  Warning(`Also take notes that this project is like a newborn child, it's very cute but has a long way to being as powerful as frameworks like Gin.`),
+  Warning(`This project is in a very early stage yet. <br/>it has a long way to "go" (Bad joke made by the author)`),
   SubTitle("Who made this mess?"),
   BlockText(
-    Text(`If you have take the interest in this little thing of mine and want to throw some new ideas, you can collab with this project, send me a message
-    in my git account: <br/> `),
+    Text(`If you have take the interest in this little thing of mine and want to throw some new ideas, you can collab with this project, send some issues and comments about it:  <br/> `),
     Bold("Click the cute cat icon in the header of this page")
   )
 ))
@@ -129,7 +128,7 @@ func HelloWorld(response http.ResponseWriter, request *http.Request) httpkit.Htt
 	jsonData := map[string]interface{}{
 		"data": "Hello World",
 	}
-	return httpkit.AppSucess("Message received", jsonData, response)
+	return httpkit.AppSucess("Message received", jsonData)
 }
 
 func main() {
@@ -229,8 +228,21 @@ Code(`func main(){
 	licor.SetCustomProtection(myCustomProtection)  
 }`),
 Note(`In the custom function you can return the request with a context to access new values`),
-))
 
+SubTitle("Dynamic Routes"),
+BlockText(
+  Text(`When creating a route that receives a parameter in the url, you can create something like that: `)
+),
+Code(`licor.Public[any, any]("/get/{id}").Get(function)`),
+BlockText(
+  Text(`In this example, the `),
+  Bold("{id}"),
+  Text(`placeholder in the URL indicates that the route expects a dynamic parameter in that position.
+<br/> Within the handler function for this route, you can retrieve the dynamic parameter with following command: `)
+),
+Code(`params, _ := httpkit.GetUrlParams(request)
+id, _ := strconv.Atoi(params.Param["id"])`)
+))
 const docFunctions:DocumentationType = NovoDocumento("Functions","Overview",Content(
   SubTitle("Licor Functions"),
   BlockText(
@@ -533,6 +545,7 @@ const docLicor:DocumentationType = NovoDocumento("Licor","Reference",Content(
   Code(`licor.SetCustomInvalidTokenMessage(string)`),
   Code(`licor.SetCustomNotAuthorizedMessage(string)`),
   Code(`licor.SetMaxSizeFormData(int)`),
+  Code(`licor.SetCors(cors *cors.Cors)`)
 
 ))
     

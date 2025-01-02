@@ -104,7 +104,7 @@ out:fly={{duration:time,y:-1300,opacity:1,easing:expoIn}}>
                         <div class="absolute top-0 left-0 w-[2px] h-full dark:bg-lightWeak bg-darkWeak"></div>              
                         <div class="flex flex-col gap-2">
                             <b>Warning</b>          
-                            {conteudo.warning}
+                            {@html conteudo.warning}
                         </div>
                     </div>
                 {/if}
@@ -114,7 +114,7 @@ out:fly={{duration:time,y:-1300,opacity:1,easing:expoIn}}>
                         <div class="absolute top-0 left-0 w-[2px] h-full dark:bg-lightWeak bg-darkWeak"></div>              
                         <div class="flex flex-col gap-2">
                             <b>Tip</b>          
-                            {conteudo.note}
+                            {@html conteudo.note}
                         </div>
                     </div>
                 {/if}
